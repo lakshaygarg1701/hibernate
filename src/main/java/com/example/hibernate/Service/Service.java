@@ -54,14 +54,20 @@ public class Service implements UserDetailsService {
         classDAO.addSubject(classHibernateEntity.getSub_id(),classHibernateEntity);
     }
     public List getStudent(String id){
-        List student = studentDAO.getStudent(id);
+        List student = studentDAO.getStudentDetails(id);
         return student;
+    }
+    public void getRolesForUser(String id){
+        System.out.println(studentDAO.getStudent(id).getUserroles());
     }
     public void getSubject(String id){classDAO.getSubject(id);}
     public void getSubjectStudents(String id){classDAO.getStudents(id);}
     public List<StudentHibernateEntity> get(){return studentDAO.getStudent();}
     public void update(String id, StudentHibernateEntity studentHibernate) {studentDAO.updateStudent(id, studentHibernate);}
     public void updateStudent(String id, StudentHibernateEntity studentHibernate) {studentDAO.updateStudent(id, studentHibernate);}
+    public void getRoles(String username){
+
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

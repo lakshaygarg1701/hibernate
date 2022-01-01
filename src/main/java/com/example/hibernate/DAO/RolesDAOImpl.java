@@ -29,7 +29,7 @@ public class RolesDAOImpl implements RolesDAO{
 
     @Override
     public RolesHibernateEntity findRoleByName(String name) {
-        Query query = session.createQuery("from role_hibernate where rolename=:name");
+        Query query = session.createQuery("from roles where rolename=:name");
         query.setParameter("name",name);
         RolesHibernateEntity rolesHibernateEntity = (RolesHibernateEntity) query.getSingleResult();
         return rolesHibernateEntity;

@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.persistence.*;
 
 @Table
-@Entity(name = "class_hibernate")
+@Entity(name = "subject")
 @Data
 @NoArgsConstructor
 public class ClassHibernateEntity {

@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+import static java.lang.System.*;
+
 @Slf4j
 public class customAuth extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
@@ -33,39 +35,40 @@ public class customAuth extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         log.info("User is trying to login");
+        log.info(request.getRequestURL().toString());
         String username=request.getParameter("username");
         String password=request.getParameter("password");
         log.info("username = {}",username);
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username,password);
-//        System.out.println(usernamePasswordAuthenticationToken);
         log.debug("Trying to authenticate");
         return authenticationManager.authenticate(usernamePasswordAuthenticationToken);
     }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        System.out.println("Congratulations! You have successfully passed the login test");
+        out.println(request.getParameter("username") + " have successfully passed the login test");
         StudentHibernateEntity studentHibernateEntity = new StudentDAOImpl().findStudentByName(request.getParameter("username"));
         Algorithm algorithm = Algorithm.HMAC512("secret".getBytes());
         log.debug(algorithm.toString());
         String accessToken = JWT.create()
                 .withSubject(studentHibernateEntity.getEmail())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 10*60*1000))
+                .withExpiresAt(new Date(currentTimeMillis() + 10*60*1000))
                 .withIssuer(request.getRequestURL().toString())
                 .sign(algorithm);
         String refreshToken = JWT.create()
                 .withSubject(studentHibernateEntity.getEmail())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 30*60*1000))
+                .withExpiresAt(new Date(currentTimeMillis() + 30*60*1000))
                 .withIssuer(request.getRequestURL().toString())
                 .sign(algorithm);
         response.setHeader("access",accessToken);
         response.setHeader("refresh",refreshToken);
-//        System.out.println(authResult.getPrincipal());
-//        System.out.println("Congratulations! You have successfully passed the login test");
+        response.setHeader("SOEID", request.getParameter("username"));
+        String responseURL = "/api/v1/Student/"+request.getParameter("username");
+        response.sendRedirect(responseURL);
     }
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-        System.out.println("Sorry you have failed the login test");
+        out.println("Sorry you have failed the login test");
     }
 }

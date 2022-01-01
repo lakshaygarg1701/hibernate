@@ -19,9 +19,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import java.util.Properties;
 
 @Configuration
-@EnableTransactionManagement
-@ComponentScan(value = "com.example.hibernate")
-//@PropertySource(value = "application.properties")
+//@EnableTransactionManagement
+//@ComponentScan(value = "com.example.hibernate")
 public class Hibernate {
     private static SessionFactory sessionFactory;
 //    @Autowired
@@ -47,8 +46,8 @@ public class Hibernate {
             //addClass(Employee1.class) will look for resource
             // com/journaldev/hibernate/model/Employee1.hbm.xml (not good)
             configuration.addAnnotatedClass(StudentHibernateEntity.class);
-            configuration.addAnnotatedClass(ClassHibernateEntity.class);
-            configuration.addAnnotatedClass(Student_Course.class);
+//            configuration.addAnnotatedClass(ClassHibernateEntity.class);
+//            configuration.addAnnotatedClass(Student_Course.class);
             configuration.addAnnotatedClass(RolesHibernateEntity.class);
 
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();

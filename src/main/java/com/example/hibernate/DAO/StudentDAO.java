@@ -14,6 +14,9 @@ public interface StudentDAO {
 //    void addRoleToStudent(String username, String rolename);
     public void updateStudent(String id, StudentHibernateEntity studentHibernate);
     public List<StudentHibernateEntity> getStudent();
-    public List getStudent(String id);
+    public List getStudentDetails(String id);
+
+    StudentHibernateEntity getStudent(String id);
+
     public StudentHibernateEntity findStudentByName(String name);
     }

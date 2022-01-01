@@ -6,18 +6,21 @@ import com.example.hibernate.Entitties.StudentHibernateEntity;
 import com.example.hibernate.Service.Service;
 import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RequestMapping(value = "/api/v1/")
 @RestController
-public class StudentHibernateController {
+public class Controller {
     private Service studentService;
 //    private ClassService classService;
 
     @Autowired
-    public StudentHibernateController(Service studentService) {
+    public Controller(Service studentService) {
         this.studentService = studentService;
     }
 

@@ -3,20 +3,14 @@ package com.example.hibernate.Entitties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
-import com.example.hibernate.Entitties.RolesHibernateEntity;
-import java.util.List;
-
-import static javax.persistence.FetchType.EAGER;
 
 @Table
-@Entity(name = "student_hibernate")
+@Entity(name = "student")
 @Data
 @NoArgsConstructor
 public class StudentHibernateEntity {
@@ -35,7 +29,8 @@ public class StudentHibernateEntity {
     private String course;
     @Transient
     private int semester;
-//    private Collection<RolesHibernateEntity> role = new ArrayList<>();
+    @ElementCollection(targetClass = RolesHibernateEntity.class)
+    private Collection<RolesHibernateEntity> userroles = new ArrayList<>();
 
     public StudentHibernateEntity(@JsonProperty("adm_no") String id,
                                   @NotNull @JsonProperty("name") String name,
